@@ -26,3 +26,8 @@ class ZillowData:
         price_list = [individual_price[0] for individual_price in price]
 
         return price_list
+
+
+    def get_address(self):
+        addresses = [address[0] for address in self.listing]
+        return addresses
