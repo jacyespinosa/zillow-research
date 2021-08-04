@@ -15,7 +15,6 @@ class ZillowData:
         self.webpage = self.response.text
         self.soup = BeautifulSoup(self.webpage, "lxml")
 
-
     def get_price(self):
         self.listings = self.soup.find_all(name="div", class_="list-card-info")
         self.listing = [rental_listing.getText().split("$") for rental_listing in self.listings]
@@ -27,7 +26,20 @@ class ZillowData:
 
         return price_list
 
-
     def get_address(self):
         addresses = [address[0] for address in self.listing]
         return addresses
+
+    def get_links(self):
+        links = self.soup.select('div.list-card-info a.list-card-link')
+        list_of_links = [a['href'] for a in links]
+
+        final_links = []
+        for link in list_of_links:
+            if link[0] == "/":
+                link = "https://www.zillow.com" + link
+                final_links.append(link)
+            else:
+                final_links.append(link)
+
+        return final_links
