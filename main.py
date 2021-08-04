@@ -14,3 +14,15 @@ class ZillowData:
         self.response.raise_for_status()
         self.webpage = self.response.text
         self.soup = BeautifulSoup(self.webpage, "lxml")
+
+
+    def get_price(self):
+        self.listings = self.soup.find_all(name="div", class_="list-card-info")
+        self.listing = [rental_listing.getText().split("$") for rental_listing in self.listings]
+        item = [str(rental_price[1]) for rental_price in self.listing]
+
+        price = [str(rental_price).split('/') for rental_price in item]
+
+        price_list = [individual_price[0] for individual_price in price]
+
+        return price_list
