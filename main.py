@@ -30,3 +30,8 @@ while not over:
         address_question.click()
         time.sleep(1)
         address_question.send_keys(f'{address[i]}')
+
+        price_question = driver.find_element_by_xpath('//*[@id="mG61Hd"]/div[2]/div/div[2]/div[2]/div/div/div[2]/div/div[1]/div/div[1]/input')
+        price_question.click()
+        time.sleep(1)
+        price_question.send_keys(f'{price[i]}')
