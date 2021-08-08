@@ -1,45 +1,7 @@
-import requests
-import lxml as lxml
-from bs4 import BeautifulSoup
+from zillow import ZillowData
+from selenium import webdriver
+import time
+from selenium.webdriver.common.keys import Keys
 
-ZILLOW_URL = 'https://www.zillow.com/san-jose-ca/rentals/2-2_beds/?searchQueryState=%7B%22pagination%22%3A%7B%7D%2C%22usersSearchTerm%22%3A%22San%20Jose%2C%20CA%22%2C%22mapBounds%22%3A%7B%22west%22%3A-122.11190420019531%2C%22east%22%3A-121.63811879980469%2C%22south%22%3A37.136968211576836%2C%22north%22%3A37.48049223172488%7D%2C%22regionSelection%22%3A%5B%7B%22regionId%22%3A33839%2C%22regionType%22%3A6%7D%5D%2C%22isMapVisible%22%3Atrue%2C%22filterState%22%3A%7B%22price%22%3A%7B%22min%22%3A0%2C%22max%22%3A872627%7D%2C%22mp%22%3A%7B%22min%22%3A0%2C%22max%22%3A3000%7D%2C%22beds%22%3A%7B%22min%22%3A2%2C%22max%22%3A2%7D%2C%22fsba%22%3A%7B%22value%22%3Afalse%7D%2C%22fsbo%22%3A%7B%22value%22%3Afalse%7D%2C%22nc%22%3A%7B%22value%22%3Afalse%7D%2C%22fore%22%3A%7B%22value%22%3Afalse%7D%2C%22cmsn%22%3A%7B%22value%22%3Afalse%7D%2C%22auc%22%3A%7B%22value%22%3Afalse%7D%2C%22pmf%22%3A%7B%22value%22%3Afalse%7D%2C%22pf%22%3A%7B%22value%22%3Afalse%7D%2C%22fr%22%3A%7B%22value%22%3Atrue%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C%22isListVisible%22%3Atrue%2C%22mapZoom%22%3A11%7D'
-
-
-class ZillowData:
-    def __init__(self):
-        self.response = requests.get(ZILLOW_URL, headers={"Accept-Language": "en-US,en;q=0.9",
-                                      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-                                      "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"})
-
-        self.response.raise_for_status()
-        self.webpage = self.response.text
-        self.soup = BeautifulSoup(self.webpage, "lxml")
-
-    def get_price(self):
-        self.listings = self.soup.find_all(name="div", class_="list-card-info")
-        self.listing = [rental_listing.getText().split("$") for rental_listing in self.listings]
-        item = [str(rental_price[1]) for rental_price in self.listing]
-
-        price = [str(rental_price).split('/') for rental_price in item]
-
-        price_list = [individual_price[0] for individual_price in price]
-
-        return price_list
-
-    def get_address(self):
-        addresses = [address[0] for address in self.listing]
-        return addresses
-
-    def get_links(self):
-        links = self.soup.select('div.list-card-info a.list-card-link')
-        list_of_links = [a['href'] for a in links]
-
-        final_links = []
-        for link in list_of_links:
-            if link[0] == "/":
-                link = "https://www.zillow.com" + link
-                final_links.append(link)
-            else:
-                final_links.append(link)
-
-        return final_links
+GOOGLE_FORM = 'ENTER GOOGLE FORM LINK'
+CHROME_DRIVER_PATH = "ENTER CHROME DRIVER PATH"
