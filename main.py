@@ -21,3 +21,12 @@ time.sleep(3)
 address_question = driver.find_element_by_xpath('//*[@id="mG61Hd"]/div[2]/div/div[2]/div[1]/div/div/div[2]/div/div[1]/div/div[1]/input')
 address_question.click()
 time.sleep(1)
+
+
+over = False
+while not over:
+    for i in range(len(address)):
+        address_question = driver.find_element_by_xpath('//*[@id="mG61Hd"]/div[2]/div/div[2]/div[1]/div/div/div[2]/div/div[1]/div/div[1]/input')
+        address_question.click()
+        time.sleep(1)
+        address_question.send_keys(f'{address[i]}')
